@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+google-genai
+python-multipart
+python-dotenv
+websockets
+sqlalchemy
+psycopg2-binary
+redis
+celery
+pydantic
+google-generativeai
+aiosqlite
