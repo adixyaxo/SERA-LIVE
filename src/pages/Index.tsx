@@ -21,12 +21,11 @@ const Index = () => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
-    // if (!user) {
-    //   //navigate('/auth');
-    // } else {
-    //   loadUserCards();
-    // }
-    loadUserCards();
+    if (!user) {
+       navigate('/auth');
+     } else {
+       loadUserCards();
+     }
   }, [user, navigate]);
 
   const loadUserCards = async () => {
