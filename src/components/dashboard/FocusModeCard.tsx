@@ -5,12 +5,19 @@ import { cn } from "@/lib/utils";
 
 export const FocusModeCard = () => {
   const [isActive, setIsActive] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes in seconds
-  const totalTime = 25 * 60;
+  const [inputMinutes, setInputMinutes] = useState(25);
+  const [inputSeconds, setInputSeconds] = useState(0);
+
+  const initialTotal = inputMinutes * 60 + inputSeconds;
+  const [timeLeft, setTimeLeft] = useState(initialTotal);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
+    setTimeLeft(initialTotal);
+  }, [inputMinutes, inputSeconds]);
+
+  useEffect(() => {
+    let interval;
+
     if (isActive && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((time) => time - 1);
@@ -28,12 +35,12 @@ export const FocusModeCard = () => {
 
   const resetTimer = () => {
     setIsActive(false);
-    setTimeLeft(totalTime);
+    setTimeLeft(initialTotal);
   };
 
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  const progress = ((totalTime - timeLeft) / totalTime) * 100;
+  const progress = ((initialTotal - timeLeft) / initialTotal) * 100;
 
   return (
     <div className="glass rounded-3xl p-6 animate-fade-in">
@@ -57,22 +64,40 @@ export const FocusModeCard = () => {
             className="rounded-full hover:bg-accent/10 transition-smooth"
             onClick={toggleTimer}
           >
-            {isActive ? (
-              <Pause className="h-5 w-5" />
-            ) : (
-              <Play className="h-5 w-5" />
-            )}
+            {isActive ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
           </Button>
         </div>
       </div>
 
       <div className="space-y-4">
+        <div className="flex items-center gap-2 justify-center mb-4">
+          <input
+            type="number"
+            min="0"
+            className="w-16 p-2 rounded-lg bg-background border"
+            value={inputMinutes}
+            onChange={(e) => setInputMinutes(Number(e.target.value))}
+          />
+          <span className="text-muted-foreground">min</span>
+          <input
+            type="number"
+            min="0"
+            max="59"
+            className="w-16 p-2 rounded-lg bg-background border"
+            value={inputSeconds}
+            onChange={(e) => setInputSeconds(Number(e.target.value))}
+          />
+          <span className="text-muted-foreground">sec</span>
+        </div>
+
         <div className="text-center">
-          <div className={cn(
-            "text-4xl font-light mb-2 transition-smooth",
-            isActive && "text-accent"
-          )}>
-            {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
+          <div
+            className={cn(
+              "text-4xl font-light mb-2 transition-smooth",
+              isActive && "text-accent"
+            )}
+          >
+            {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
           </div>
           <div className="text-sm text-muted-foreground">Deep Work Session</div>
         </div>
