@@ -27,7 +27,6 @@ const Index = () => {
     } else {
       loadUserCards();
     }
-    // loadUserCards();
   }, [user, navigate]);
 
   const loadUserCards = async () => {
