@@ -8,7 +8,7 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv("C:/Users/adity/Desktop/SERA-main/SERA-main/.env")
+load_dotenv(".env")
 
 class GeminiClient:
     def __init__(self):
